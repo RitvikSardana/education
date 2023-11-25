@@ -70,16 +70,22 @@ class ProgramEnrollment(Document):
 
 	def validate_duplication(self):
 		enrollment = frappe.db.exists(
-			"Program Enrollment", {
+			"Program Enrollment",
+			{
 				"student": self.student,
 				"program": self.program,
 				"academic_year": self.academic_year,
 				"academic_term": self.academic_term,
 				"docstatus": ("<", 2),
 				"name": ("!=", self.name),
-			})
+			},
+		)
 		if enrollment:
-			frappe.throw(_("Student is already enrolled."))
+			frappe.throw(
+				_("Student {0} is already enrolled in Program {1}").format(
+					self.student_name, self.program
+				)
+			)
 
 	def update_student_joining_date(self):
 		table = frappe.qb.DocType("Program Enrollment")
