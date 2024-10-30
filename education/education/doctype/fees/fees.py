@@ -102,6 +102,7 @@ class Fees(AccountsController):
 				dn=self.name,
 				recipient_id=self.contact_email,
 				submit_doc=True,
+				party_name=self.student_name,
 				use_dummy_message=True,
 			)
 			frappe.msgprint(
